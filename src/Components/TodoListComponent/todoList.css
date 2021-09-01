@@ -1,0 +1,37 @@
+.todo_list {
+    text-align: center;
+}
+
+.todo_list form {
+    padding-left: 35px;
+    margin-top: 5%;
+    margin-bottom: 8%;
+}
+
+
+.todo_list ul {
+    list-style-type: none;
+    text-align: left;
+}
+
+.text_field {
+    width: 100%;
+    
+}
+
+.todo_list li {
+    background-color: #3f51b5;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 16px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    padding-right: 16px;
+    border-radius: 8px;
+    margin-top: 13px;
+}
+
+.delete_icon:hover {
+    cursor: pointer;
+}

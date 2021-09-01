@@ -1,0 +1,10 @@
+.nav_bar{
+    border: 1px solid red;
+    height: 55px;
+}
+
+.icon_container {
+      display: flex;
+      width: 100%;
+     justify-content: space-evenly;
+}
