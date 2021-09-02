@@ -42,8 +42,6 @@ const styles = theme => ({
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    // display: 'flex',
-    // // justifyContent: 'space-evenly'
   },
   drawer: {
     width: drawerWidth,
@@ -66,8 +64,6 @@ class App extends React.Component {
     newCategorySelected: false,
     selectIcon: false,
     activeTab: 0,
-    trashIconColor1: 'transparent',
-    // trashIconColor2: /
     icons: [
       {
         name: 'alarm',
@@ -126,34 +122,19 @@ class App extends React.Component {
         icon: <ComputerIcon />
       }
     ],
-    selectedIcon: [],
-    tabs: JSON.parse(localStorage.getItem('tabs')) || [
+      tabs: [
       {
-        id: 0,
         icon: <ShoppingCartIcon />,
         label: 'Groceries',
-        content: ['grocery list', 'test']
+        content: []
       }, 
       {
-        id: 1,
         icon: <SchoolIcon />,
         label: 'School',
-        content: ['school list', 'test']
+        content: []
       }
     ],
     value: '',
-  }
-
-  componentDidMount() {
-    // let tabs = ls.get('tabs')
-    // console.log(tabs)
-    fetch(URL)
-    // .then(response => response.json())
-    .then(this.setState({
-      activeTab: ls.get('activeTab') || 0,
-      tabs: ls.get('tabs') || [] 
-    }));
-    // console.log(this.state.tabs)
   }
 
   // handles clicking the tabs, and sets activeTab in our state
@@ -192,6 +173,7 @@ class App extends React.Component {
     let tabs = [...this.state.tabs];
     tabs[activeTab].content = [...tabs[activeTab].content.filter(item => item != content)]
     this.setState({tabs})
+    
   }
 
   // after clicking the + button, this sets the newCategorySelect = true, which renders the input the input bar
@@ -202,6 +184,7 @@ class App extends React.Component {
   }
 
   handleDeleteCategory = (tab) => {
+    console.log(this.state.tabs)
     let tabs = [...this.state.tabs];
     tabs = [...tabs.filter(item => item != tab)]
     this.setState({tabs})
@@ -223,24 +206,20 @@ class App extends React.Component {
       tabs: [...this.state.tabs, newCat],
       activeTab: this.state.tabs.length,
       selectIcon: true,
-      // newCategorySelected: false
-    },() => localStorage.setItem('tabs', JSON.stringify(this.state.tabs)))
+    })
     } else {
       this.setState({
         newCategorySelected: false
       })
     }
-    
-    // console.log(window.localStorage)
   }
 
   // Handle to add icon to a category
   handleAddIcon = (icon) => {
-    console.log(icon.name)
     let iconValue = icon.icon;
     let activeTab = this.state.activeTab;
     let tabs = [...this.state.tabs];
-    tabs[activeTab].icon = [iconValue]
+    tabs[activeTab].icon = iconValue;
     this.setState({
       tabs,
       selectIcon: false,
@@ -276,9 +255,18 @@ class App extends React.Component {
 
   render() {
     const {classes, theme} = this.props;
-    let tabs;
-    (JSON.parse(localStorage.getItem('tabs')).length != 0) ? tabs = JSON.parse(localStorage.getItem('tabs')) : tabs = []
-    console.log(tabs.map(id => id.icon))
+    // let tabs;
+    // let icon;
+    // (JSON.parse(localStorage.getItem('tabs'))) ? tabs = JSON.parse(localStorage.getItem('tabs')) : tabs = []
+    // tabs.map(id => icon = id.icon)
+
+    // this.state.icons.filter(icon => {
+    //   if(icon.name !== icon) {
+    //     console.log(icon.icon)
+    //   }
+    // })
+
+
 
     let filteredContent = this.state.tabs.filter((tab, index) => {
       if(index === this.state.activeTab) {
@@ -306,11 +294,11 @@ class App extends React.Component {
         <div className={classes.drawerContainer}>
           <List>
           
-            {tabs.map((tab, index) => (
+            {this.state.tabs.map((tab, index) => (
               <div className="list_item" key={index} onClick={() => this.handleTabClick(index)}>
                 <ListItem button>
-                   <ListItemIcon>{tab.id}</ListItemIcon> 
-                  <ListItemText primary={tab.label.toString()} />
+                   <ListItemIcon>{tab.icon}</ListItemIcon> 
+                  <ListItemText primary={tab.label} />
                   <ListItemIcon>
                     <div className="trash_icon_container" onClick={() => this.handleDeleteCategory(tab)}>
                       <DeleteForeverIcon className="trash_icon"/>
