@@ -36,18 +36,23 @@
 
 h3 {
   margin-left: 16px;
-  /* color:  */
+  color: #3f51b5;
 }
 
 .trash_icon {
-  color: transparent
+  visibility: hidden;
+}
+
+.trash_icon:hover{
+   transform: scale(1.1);
 }
 
 .trash_icon_container {
   margin-left: auto;
-  padding-top: 3px;
 }
 
 .list_item:hover .trash_icon {
-  color: rgba(0, 0, 0, 0.54)
+  visibility: visible;
+  color: rgba(0, 0, 0, 0.54);
+ 
 }

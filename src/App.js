@@ -142,7 +142,6 @@ class App extends React.Component {
     this.setState(({
       activeTab: index
     }))
-    localStorage.setItem('activeTab', index)
   }
 
   // grabs the value from the input bar in the child component and sets our state. This value is grabbed in the handleChildSubmit function
@@ -161,6 +160,7 @@ class App extends React.Component {
     let tabs = [...this.state.tabs];
     tabs[activeTab].content = [...tabs[activeTab].content, value]
 
+    // reset value state so that input bar is empty
     this.setState({
       tabs,
       value: ''
@@ -173,7 +173,6 @@ class App extends React.Component {
     let tabs = [...this.state.tabs];
     tabs[activeTab].content = [...tabs[activeTab].content.filter(item => item != content)]
     this.setState({tabs})
-    
   }
 
   // after clicking the + button, this sets the newCategorySelect = true, which renders the input the input bar
@@ -184,7 +183,6 @@ class App extends React.Component {
   }
 
   handleDeleteCategory = (tab) => {
-    console.log(this.state.tabs)
     let tabs = [...this.state.tabs];
     tabs = [...tabs.filter(item => item != tab)]
     this.setState({tabs})
@@ -197,7 +195,6 @@ class App extends React.Component {
     let newCat;
     if(new_category.value) {
       newCat = {
-      id: 2,
       icon: <DehazeIcon />,
       label: new_category.value,
       content: []
@@ -207,7 +204,7 @@ class App extends React.Component {
       activeTab: this.state.tabs.length,
       selectIcon: true,
     })
-    } else {
+    } else { // if user clicks Add but with no input, do not add new object to Tabs
       this.setState({
         newCategorySelected: false
       })
@@ -218,6 +215,8 @@ class App extends React.Component {
   handleAddIcon = (icon) => {
     let iconValue = icon.icon;
     let activeTab = this.state.activeTab;
+
+    // get original value of state and then modify the icon of the tab where i = activeTab
     let tabs = [...this.state.tabs];
     tabs[activeTab].icon = iconValue;
     this.setState({
@@ -230,15 +229,21 @@ class App extends React.Component {
   // renders either the input bar to add a new category after clicking the + button, or it renders the + button
   renderCategoryInput = () => {
     let newCategoryField;
+    
+    // first step, after clicking '+', show the input field
     if(this.state.newCategorySelected && !this.state.selectIcon) {
         newCategoryField = 
         <form onSubmit={this.handleAddButton} className="new_cat_form">
           <input id="new_category" name="new_category" className="new_cat_input"/>
           <button className="add_button">Add</button>
         </form>
-    } else if (this.state.newCategorySelected && this.state.selectIcon) {
+    } 
+    // second step, after clicking "Add", show the prompt to select icon
+    else if (this.state.newCategorySelected && this.state.selectIcon) {
       newCategoryField = <h3>Select an icon from the top</h3>
-    } else {
+    } 
+    // once icon is selected, go back to showing the '+' 
+    else {
        newCategoryField = 
        <div>
          <Divider />
@@ -254,20 +259,7 @@ class App extends React.Component {
   }
 
   render() {
-    const {classes, theme} = this.props;
-    // let tabs;
-    // let icon;
-    // (JSON.parse(localStorage.getItem('tabs'))) ? tabs = JSON.parse(localStorage.getItem('tabs')) : tabs = []
-    // tabs.map(id => icon = id.icon)
-
-    // this.state.icons.filter(icon => {
-    //   if(icon.name !== icon) {
-    //     console.log(icon.icon)
-    //   }
-    // })
-
-
-
+    const {classes} = this.props;
     let filteredContent = this.state.tabs.filter((tab, index) => {
       if(index === this.state.activeTab) {
         return tab;
@@ -289,11 +281,9 @@ class App extends React.Component {
           paper: classes.drawerPaper,
         }}
       >
-        <Toolbar />
-        
+      <Toolbar />
         <div className={classes.drawerContainer}>
           <List>
-          
             {this.state.tabs.map((tab, index) => (
               <div className="list_item" key={index} onClick={() => this.handleTabClick(index)}>
                 <ListItem button>
@@ -304,19 +294,12 @@ class App extends React.Component {
                       <DeleteForeverIcon className="trash_icon"/>
                     </div>
                   </ListItemIcon>
-                  
                 </ListItem> 
               </div>
-            
             ))}
-         
           </List> 
-          {/* <Divider /> */}
           {this.renderCategoryInput()}
         </div>
-
-
-
 
       </Drawer>
       <main className={classes.content}>

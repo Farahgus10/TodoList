@@ -2,10 +2,20 @@
     text-align: center;
 }
 
+.input {
+    width: 80%;
+}
+
+.text_field{
+    margin: auto;
+}
+
 .todo_list form {
-    padding-left: 35px;
+    padding-left: 18%;
     margin-top: 5%;
-    margin-bottom: 8%;
+    margin-bottom: 6%;
+    text-align: center;
+    
 }
 
 
@@ -24,6 +34,8 @@
     color: white;
     display: flex;
     justify-content: space-between;
+    width: 68%;
+    margin: auto;
     padding-left: 16px;
     padding-top: 10px;
     padding-bottom: 2px;
@@ -34,4 +46,5 @@
 
 .delete_icon:hover {
     cursor: pointer;
+    transform: scale(1.1);
 }
